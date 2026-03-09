@@ -1,0 +1,44 @@
+erDiagram
+
+USER {
+    bigint id PK
+    string name
+    string email
+    string password
+    string role
+    timestamp created_at
+}
+
+CATEGORY {
+    bigint id PK
+    string name
+    string description
+}
+
+COOKBOOK {
+    bigint id PK
+    string title
+    string chef
+    text description
+    bigint category_id FK
+}
+
+COPY {
+    bigint id PK
+    bigint cookbook_id FK
+    string status
+    string condition
+}
+
+BORROW {
+    bigint id PK
+    bigint user_id FK
+    bigint copy_id FK
+    date borrow_date
+    date return_date
+}
+
+CATEGORY ||--o{ COOKBOOK : contains
+COOKBOOK ||--|{ COPY : has
+USER ||--o{ BORROW : makes
+COPY ||--o{ BORROW : borrowed_in
