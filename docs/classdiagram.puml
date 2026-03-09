@@ -1,0 +1,51 @@
+@startuml library
+
+enum Role {
+    READER
+    ADMIN
+}
+
+class User {
+    +id: bigint
+    +name: string
+    +email: string
+    +password: string
+    +role: Role
+}
+
+class Category {
+    +id: bigint
+    +name: string
+    +description: string
+}
+
+class Cookbook {
+    +id: bigint
+    +title: string
+    +chef: string
+    +description: text
+    +category_id: bigint
+}
+
+class Copy {
+    +id: bigint
+    +cookbook_id: bigint
+    +status: string
+    +condition: string
+}
+
+class Borrow {
+    +id: bigint
+    +user_id: bigint
+    +copy_id: bigint
+    +borrow_date: date
+    +return_date: date
+}
+
+User "1" -- "0..*" Borrow : borrows
+Copy "1" -- "0..*" Borrow : borrowed
+
+Category "1" -- "0..*" Cookbook : contains
+Cookbook "1" -- "1..*" Copy : has
+
+@enduml
