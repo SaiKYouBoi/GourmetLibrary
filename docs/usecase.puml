@@ -1,0 +1,33 @@
+@startuml GourmetLibrary
+
+left to right direction
+
+actor "Food Enthusiast" as Reader
+actor "Administrator" as Admin
+
+rectangle "GourmetLibrary API" {
+
+    usecase "Authenticate (Sanctum)" as UC1
+
+    usecase "Browse cookbooks by category" as UC2
+    usecase "Search cookbook\n(title, chef, category)" as UC3
+    usecase "View popular books\nor new arrivals" as UC4
+
+    usecase "Manage categories\n(Add / Edit / Delete)" as UC5
+    usecase "Manage cookbooks\n(Add / Edit / Delete)" as UC6
+    usecase "View collection statistics" as UC7
+    usecase "View damaged books quantity" as UC8
+}
+
+Reader --> UC1
+Reader --> UC2
+Reader --> UC3
+Reader --> UC4
+
+Admin --> UC1
+Admin --> UC5
+Admin --> UC6
+Admin --> UC7
+Admin --> UC8
+
+@enduml
