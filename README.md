@@ -1,6 +1,3 @@
-
----
-
 ````markdown
 # GourmetLibrary API Documentation
 
