@@ -1,4 +1,3 @@
-````markdown
 # GourmetLibrary API Documentation
 
 Base URL: `http://localhost/api`  
@@ -11,15 +10,16 @@ Authentication: **Laravel Sanctum Bearer Token** required for protected endpoint
 ### Register User
 
 - **Endpoint:** `/register`  
-- **Method:** POST  
-- **Body:**
+- **Method:** `POST`
+
+#### Request Body
+
 ```json
 {
   "name": "Ilias",
   "email": "ilias@test.com",
   "password": "password123"
 }
-````
 
 * **Response:**
 
