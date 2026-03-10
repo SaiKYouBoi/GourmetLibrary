@@ -1,59 +1,267 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+````markdown
+# GourmetLibrary API Documentation
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Base URL: `http://localhost/api`  
+Authentication: **Laravel Sanctum Bearer Token** required for protected endpoints.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Authentication
 
-## Learning Laravel
+### Register User
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- **Endpoint:** `/register`  
+- **Method:** POST  
+- **Body:**
+```json
+{
+  "name": "Ilias",
+  "email": "ilias@test.com",
+  "password": "password123"
+}
+````
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* **Response:**
 
-## Laravel Sponsors
+```json
+{
+  "user": {
+    "id": 1,
+    "name": "Ilias",
+    "email": "ilias@test.com",
+    "role": "admin",
+    "created_at": "2026-03-10T10:00:00Z"
+  },
+  "token": "plain-text-token"
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Login User
 
-### Premium Partners
+* **Endpoint:** `/login`
+* **Method:** POST
+* **Body:**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```json
+{
+  "email": "ilias@test.com",
+  "password": "password123"
+}
+```
 
-## Contributing
+* **Response:**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```json
+{
+  "user": { ... },
+  "token": "plain-text-token"
+}
+```
 
-## Code of Conduct
+### Get Authenticated User
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* **Endpoint:** `/user`
+* **Method:** GET
+* **Headers:** `Authorization: Bearer {token}`
+* **Response:**
 
-## Security Vulnerabilities
+```json
+{
+  "id": 1,
+  "name": "Ilias",
+  "email": "ilias@test.com",
+  "role": "admin"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Categories
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Action          | Endpoint           | Method | Auth |
+| --------------- | ------------------ | ------ | ---- |
+| List categories | `/categories`      | GET    | Yes  |
+| Create category | `/categories`      | POST   | Yes  |
+| Update category | `/categories/{id}` | PUT    | Yes  |
+| Delete category | `/categories/{id}` | DELETE | Yes  |
+
+### Example: Create Category
+
+```json
+POST /categories
+{
+  "name": "Italian Cuisine",
+  "description": "Traditional Italian recipes"
+}
+```
+
+Response:
+
+```json
+{
+  "id": 1,
+  "name": "Italian Cuisine",
+  "description": "Traditional Italian recipes"
+}
+```
+
+---
+
+## Cookbooks
+
+| Action                   | Endpoint                             | Method | Auth |
+| ------------------------ | ------------------------------------ | ------ | ---- |
+| List all cookbooks       | `/cookbooks`                         | GET    | Yes  |
+| Create cookbook          | `/cookbooks`                         | POST   | Yes  |
+| Update cookbook          | `/cookbooks/{id}`                    | PUT    | Yes  |
+| Delete cookbook          | `/cookbooks/{id}`                    | DELETE | Yes  |
+| Browse by category       | `/categories/{id}/cookbooks`         | GET    | Yes  |
+| Search cookbooks         | `/cookbooks/search?q=`               | GET    | Yes  |
+| Most popular in category | `/categories/{id}/cookbooks/popular` | GET    | Yes  |
+| New arrivals in category | `/categories/{id}/cookbooks/new`     | GET    | Yes  |
+| Degraded books           | `/cookbooks/degraded`                | GET    | Yes  |
+
+### Example: Create Cookbook
+
+```json
+POST /cookbooks
+{
+  "title": "Italian Pasta Mastery",
+  "chef": "Massimo Bottura",
+  "description": "Modern pasta recipes",
+  "category_id": 1
+}
+```
+
+Response:
+
+```json
+{
+  "id": 1,
+  "title": "Italian Pasta Mastery",
+  "chef": "Massimo Bottura",
+  "category_id": 1
+}
+```
+
+---
+
+## Copies
+
+| Action                    | Endpoint                 | Method | Auth |
+| ------------------------- | ------------------------ | ------ | ---- |
+| Create copy               | `/copies`                | POST   | Yes  |
+| List copies of a cookbook | `/cookbooks/{id}/copies` | GET    | Yes  |
+| Update copy               | `/copies/{id}`           | PUT    | Yes  |
+| Delete copy               | `/copies/{id}`           | DELETE | Yes  |
+
+### Example: Create Copy
+
+```json
+POST /copies
+{
+  "cookbook_id": 1,
+  "status": "available",
+  "condition": "good"
+}
+```
+
+Response:
+
+```json
+{
+  "id": 1,
+  "cookbook_id": 1,
+  "status": "available",
+  "condition": "good"
+}
+```
+
+---
+
+## Borrowing System
+
+| Action         | Endpoint               | Method | Auth |
+| -------------- | ---------------------- | ------ | ---- |
+| Borrow a copy  | `/borrows`             | POST   | Yes  |
+| Return a copy  | `/borrows/{id}/return` | PUT    | Yes  |
+| Borrow history | `/borrows`             | GET    | Yes  |
+
+### Example: Borrow a Copy
+
+```json
+POST /borrows
+{
+  "copy_id": 1
+}
+```
+
+Response:
+
+```json
+{
+  "id": 1,
+  "user_id": 2,
+  "copy_id": 1,
+  "borrow_date": "2026-03-10",
+  "return_date": null
+}
+```
+
+---
+
+## Statistics
+
+| Action                | Endpoint      | Method | Auth |
+| --------------------- | ------------- | ------ | ---- |
+| Collection statistics | `/statistics` | GET    | Yes  |
+
+### Example Response
+
+```json
+{
+  "most_consulted_books": [
+    { "id": 1, "title": "French Pastry Mastery", "chef": "Pierre Hermé", "borrows_count": 12 }
+  ],
+  "collection_condition": [
+    { "condition": "good", "total": 40 },
+    { "condition": "damaged", "total": 6 }
+  ],
+  "most_represented_categories": [
+    { "id": 2, "name": "Italian Cuisine", "cookbooks_count": 12 }
+  ]
+}
+```
+
+---
+
+## Degraded Books
+
+| Action                    | Endpoint              | Method | Auth |
+| ------------------------- | --------------------- | ------ | ---- |
+| Degraded copies per title | `/cookbooks/degraded` | GET    | Yes  |
+
+### Example Response
+
+```json
+[
+  { "id": 1, "title": "Italian Pasta Mastery", "chef": "Massimo Bottura", "degraded_count": 2 },
+  { "id": 2, "title": "French Pastry Mastery", "chef": "Pierre Hermé", "degraded_count": 1 }
+]
+```
+
+---
+
+## Notes
+
+* All **POST/PUT** requests require `Content-Type: application/json`.
+* All **protected endpoints** require `Authorization: Bearer {token}`.
+* Dates are in **ISO 8601 format** (`YYYY-MM-DD`).
+* `condition` field in **copies** can be: `"good"`, `"damaged"`, `"stained"`.
+* Pagination can be added for **cookbooks and copies** if needed.
+
+---
+```
