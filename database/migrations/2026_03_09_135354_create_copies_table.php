@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('copies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cookbook_id')->constrained()->cascadeOnDelete();
-            $table->enum('statut', ['available', 'borrowed', 'lost']);
-            $table->enum('condition', ['good', 'damaged', 'missing_pages']);
+            $table->enum('status', ['available', 'borrowed', 'lost'])->default('available');
+            $table->enum('condition', ['good', 'damaged', 'stained'])->default('good');
             $table->timestamps();
         });
     }
