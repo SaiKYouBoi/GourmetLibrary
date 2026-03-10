@@ -20,4 +20,12 @@ class Borrow extends Model
             'return_date' => 'datetime',
         ];
     }
+
+    public function copy(){
+        return $this->belongsTo(Copy::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

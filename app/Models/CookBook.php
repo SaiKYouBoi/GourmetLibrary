@@ -13,4 +13,11 @@ class CookBook extends Model
         'category_id'
     ];
 
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+
+    public function copies(){
+        return $this->hasMany(Copy::class);
+    }
 }

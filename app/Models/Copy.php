@@ -11,5 +11,12 @@ class Copy extends Model
         'status',
         'condition',
     ];
-    
+
+    public function cookbook(){
+        return $this->belongsTo(CookBook::class);
+    }
+
+    public function borrows(){
+        return $this->hasMany(Borrow::class);
+    }
 }

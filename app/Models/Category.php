@@ -11,4 +11,8 @@ class Category extends Model
         'description',
     ];
 
+
+    public function cookbooks(){
+        return $this->hasMany(CookBook::class);
+    }
 }
